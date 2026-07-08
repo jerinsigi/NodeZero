@@ -16,14 +16,23 @@ export default function Maps({ incidents = [] }) {
     
     incidents.forEach(inc => {
       let node = inc.location_node ? inc.location_node.toUpperCase().replace(/\s+/g, '_') : 'UNKNOWN';
-      // Normalize single digit gates like GATE_1 to GATE_01
-      node = node.replace(/^GATE_(\d)$/, 'GATE_0$1');
-      // Normalize SECTION_ to SEC_
-      node = node.replace(/^SECTION_/, 'SEC_');
-      // Normalize CONCOURSE numbers
-      node = node.replace(/^CONCOURSE_(\d)$/, 'CONCOURSE_0$1');
+      
+      // Normalize Gates: G1, G_1, GATE1, GATE_1 -> GATE_01
+      node = node.replace(/^(?:G|GATE)_?(\d)$/, 'GATE_0$1');
+      
+      // Normalize Sections: S101, S_101, SECTION101, SECTION_101 -> SEC_101
+      node = node.replace(/^(?:S|SEC|SECTION)_?(\d{3})$/, 'SEC_$1');
+      
+      // Normalize Concourses: C5, C_5, CONCOURSE5, CONCOURSE_5 -> CONCOURSE_05
+      node = node.replace(/^(?:C|CONCOURSE)_?(\d)$/, 'CONCOURSE_0$1');
+      
+      // Normalize Directional Concourses: NORTH_CONCOURSE, N_CONCOURSE -> CONCOURSE_N
+      if (node === 'NORTH_CONCOURSE' || node === 'N_CONCOURSE' || node === 'CONCOURSE_NORTH') node = 'CONCOURSE_N';
+      if (node === 'SOUTH_CONCOURSE' || node === 'S_CONCOURSE' || node === 'CONCOURSE_SOUTH') node = 'CONCOURSE_S';
+      
       // Normalize VIP variations to VIP_LOUNGE
       if (node.startsWith('VIP')) node = 'VIP_LOUNGE';
+      
       // Normalize FIELD to PITCH
       if (node.includes('FIELD')) node = 'PITCH';
       
