@@ -17,12 +17,21 @@ export default function StadiumMatrix({ incidents = [] }) {
       let node = inc.location_node ? inc.location_node.toUpperCase().replace(/\s+/g, '_') : 'UNKNOWN';
       // Normalize single digit gates like GATE_1 to GATE_01
       node = node.replace(/^GATE_(\d)$/, 'GATE_0$1');
+      // Normalize SECTION_ to SEC_
+      node = node.replace(/^SECTION_/, 'SEC_');
+      // Normalize CONCOURSE numbers
+      node = node.replace(/^CONCOURSE_(\d)$/, 'CONCOURSE_0$1');
+      // Normalize VIP variations to VIP_LOUNGE
+      if (node.startsWith('VIP')) node = 'VIP_LOUNGE';
+      // Normalize FIELD to PITCH
+      if (node.includes('FIELD')) node = 'PITCH';
       
       const currentRank = statusMap[node] ? severityRank[statusMap[node]] : 0;
-      const incRank = severityRank[inc.severity] || 0;
+      const severityStr = inc.severity ? inc.severity.toLowerCase() : 'low';
+      const incRank = severityRank[severityStr] || 1;
       
       if (incRank > currentRank) {
-        statusMap[node] = inc.severity;
+        statusMap[node] = severityStr;
       }
     });
     return statusMap;

@@ -14,6 +14,13 @@ const SEVERITY_STYLES = {
   low:    { ring: '#22c55e', label: 'bg-green-600',  text: 'LOW'  },
 };
 
+const PRESETS = [
+  { label: 'Crowd Crush', text: "Gate 4 turnstiles are jammed. Fans are piling up outside the security perimeter. There's shouting, we need backup down here immediately." },
+  { label: 'Medical/Pyro', text: "Ultras in Section 212 just lit active flares. Smoke is blinding the exit stairs. Someone collapsed from asthma." },
+  { label: 'Language Barrier', text: "Issue in concourse 5" }
+];
+
+
 export default function ChaosGenerator() {
   const [text, setText]         = useState('');
   const [status, setStatus]     = useState('idle'); // idle | loading | success | error
@@ -111,6 +118,20 @@ export default function ChaosGenerator() {
 
       {/* ── Textarea ──────────────────────────────────────────────────────── */}
       <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.presetContainer}>
+          {PRESETS.map((p) => (
+            <button
+              key={p.label}
+              type="button"
+              onClick={() => setText(p.text)}
+              style={styles.presetBtn}
+              title={p.text}
+              disabled={isLoading}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
         <textarea
           id="chaos-input"
           value={text}
@@ -227,6 +248,23 @@ const styles = {
     display:       'flex',
     flexDirection: 'column',
     gap:           '12px',
+  },
+  presetContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '8px',
+    marginBottom: '4px',
+  },
+  presetBtn: {
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    color: '#d1d5db',
+    padding: '6px 12px',
+    borderRadius: '6px',
+    fontSize: '11px',
+    fontFamily: 'ui-monospace, Consolas, monospace',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
   },
   textarea: {
     background:   'rgba(0, 0, 0, 0.4)',
