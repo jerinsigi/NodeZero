@@ -21,7 +21,7 @@ export default function App() {
               <circle cx="12" cy="12" r="2" fill="currentColor" className="animate-pulse" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 2v4M12 18v4M2 12h4M18 12h4" />
             </svg>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-red-500 to-red-800 drop-shadow-sm">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-sm">
               NodeZero
             </h1>
           </div>
