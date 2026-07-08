@@ -17,7 +17,8 @@ const SEVERITY_STYLES = {
 const PRESETS = [
   { label: 'Crowd Crush', text: "Gate 4 turnstiles are jammed. Fans are piling up outside the security perimeter. There's shouting, we need backup down here immediately." },
   { label: 'Medical/Pyro', text: "Ultras in Section 212 just lit active flares. Smoke is blinding the exit stairs. Someone collapsed from asthma." },
-  { label: 'Language Barrier', text: "Issue in concourse 5" }
+  { label: 'Language Barrier', text: "Issue in concourse 5" },
+  { label: 'Accessibility', text: "Elevator 2 is broken near Gate 1. A fan in a wheelchair needs immediate assistance evacuating the section." }
 ];
 
 
@@ -53,9 +54,10 @@ export default function ChaosGenerator() {
                   type: "STRING", 
                   enum: ["dispatch_security", "dispatch_medical", "reroute_traffic", "monitor"] 
                 },
-                signage_routing_override: { type: "STRING" }
+                signage_routing_override: { type: "STRING" },
+                requires_accessibility_support: { type: "BOOLEAN" }
               },
-              required: ["severity", "location_node", "summary", "recommended_action", "signage_routing_override"]
+              required: ["severity", "location_node", "summary", "recommended_action", "signage_routing_override", "requires_accessibility_support"]
             }
           },
         }),
@@ -74,7 +76,8 @@ export default function ChaosGenerator() {
           location_node: "SYSTEM_GATEWAY",
           summary: "AI processing pipeline threshold exceeded or blocked.",
           recommended_action: "monitor",
-          signage_routing_override: "Proceed to nearest exit"
+          signage_routing_override: "Proceed to nearest exit",
+          requires_accessibility_support: false
         };
       } else {
         const raw = data.candidates[0].content.parts[0].text;
@@ -88,6 +91,7 @@ export default function ChaosGenerator() {
         summary:                  parsed.summary                  || '',
         recommended_action:       parsed.recommended_action       || 'monitor',
         signage_routing_override: parsed.signage_routing_override || '',
+        requires_accessibility_support: parsed.requires_accessibility_support || false,
         raw_input:                text,
         timestamp:                serverTimestamp(),
       });

@@ -74,6 +74,12 @@ function IncidentCard({ incident }) {
           📍 {incident.location_node || incident.location || 'TBD'}
         </span>
 
+        {incident.requires_accessibility_support && (
+          <span style={styles.adaBadge} title="Accessibility Support Required">
+            ♿ ADA
+          </span>
+        )}
+
         <span style={styles.timestamp}>
           {formatTime(incident.timestamp)}
         </span>
@@ -295,6 +301,20 @@ const styles = {
     fontFamily: 'ui-monospace, Consolas, monospace',
     textAlign:  'left',
     fontWeight: 600,
+  },
+  adaBadge: {
+    background: '#1d4ed8',
+    color: '#bfdbfe',
+    border: '1px solid #3b82f6',
+    borderRadius: '4px',
+    padding: '2px 6px',
+    fontSize: '11px',
+    fontWeight: 'bold',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    fontFamily: 'ui-monospace, Consolas, monospace',
+    boxShadow: '0 0 8px rgba(37,99,235,0.4)',
   },
   timestamp: {
     fontSize:   '12px',
