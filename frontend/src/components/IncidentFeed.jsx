@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
 // ── Severity colour config ─────────────────────────────────────────────────────
 const SEVERITY = {
@@ -29,13 +31,27 @@ function formatTime(ts) {
   if (!ts) return '—';
   // Firestore Timestamp or plain number
   const ms = ts?.seconds ? ts.seconds * 1000 : ts;
-  return new Date(ms).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  return new Date(ms).toLocaleString([], { 
+    month: 'short', day: 'numeric', 
+    hour: '2-digit', minute: '2-digit', second: '2-digit' 
+  });
 }
 
 // ── Single incident card ───────────────────────────────────────────────────────
 function IncidentCard({ incident }) {
   const [expanded, setExpanded] = useState(false);
+  const [resolving, setResolving] = useState(false);
   const sev = SEVERITY[incident.severity] ?? SEVERITY.low;
+
+  async function handleResolve() {
+    setResolving(true);
+    try {
+      await deleteDoc(doc(db, 'incidents', incident.id));
+    } catch (err) {
+      console.error('Failed to resolve incident:', err);
+      setResolving(false);
+    }
+  }
 
   return (
     <article
@@ -43,6 +59,8 @@ function IncidentCard({ incident }) {
         ...styles.card,
         borderColor: sev.border,
         boxShadow:   sev.glow,
+        opacity: resolving ? 0.5 : 1,
+        pointerEvents: resolving ? 'none' : 'auto',
       }}
     >
       {/* Top row: severity badge + location + time */}
@@ -59,6 +77,14 @@ function IncidentCard({ incident }) {
         <span style={styles.timestamp}>
           {formatTime(incident.timestamp)}
         </span>
+
+        <button 
+          onClick={handleResolve} 
+          style={styles.resolveBtn}
+          title="Mark incident as resolved"
+        >
+          ✓ Resolve
+        </button>
       </div>
 
       {/* Summary of the incident */}
@@ -311,5 +337,18 @@ const styles = {
     padding:      '12px 16px',
     textAlign:    'left',
     boxShadow:    'inset 0 2px 4px rgba(0,0,0,0.5)',
+  },
+  resolveBtn: {
+    marginLeft:    'auto',
+    background:    'rgba(34,197,94,0.15)',
+    border:        '1px solid rgba(34,197,94,0.4)',
+    color:         '#86efac',
+    padding:       '4px 10px',
+    borderRadius:  '6px',
+    fontSize:      '12px',
+    fontWeight:    700,
+    cursor:        'pointer',
+    fontFamily:    'ui-monospace, Consolas, monospace',
+    transition:    'all 0.2s ease',
   },
 };

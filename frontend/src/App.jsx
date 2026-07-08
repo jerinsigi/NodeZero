@@ -2,6 +2,7 @@ import React from 'react';
 import { useIncidents } from './hooks/useIncidents';
 import ChaosGenerator from './components/ChaosGenerator';
 import IncidentFeed from './components/IncidentFeed';
+import StadiumMatrix from './components/StadiumMatrix';
 
 export default function App() {
   // 1. Hook into the live database. 
@@ -26,7 +27,8 @@ export default function App() {
           </section>
           
           {/* 3. The Output: Where structured state is rendered */}
-          <section className="lg:col-span-8 flex flex-col h-full">
+          <section className="lg:col-span-8 flex flex-col h-full gap-8">
+            <StadiumMatrix incidents={incidents} />
             <IncidentFeed data={incidents} />
           </section>
         </main>
