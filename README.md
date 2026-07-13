@@ -10,7 +10,7 @@ By eliminating the human cognitive bottleneck of parsing chaotic, multi-lingual,
 
 *   **The Chaos Simulator:** An integrated testing matrix allowing operations staff or hackathon judges to inject raw, frantic textual anomalies into the pipeline.
 *   **1-Click Emergency Macros:** Pre-configured event profiles (Crowd Crushes, Pyro Outbreaks, Multilingual Friction) designed for seamless product demonstration.
-*   **Gemini 1.5 Flash Synthesis Engine:** Direct client-to-API integration leveraging a strict `responseSchema` to guarantee absolute data typing without markdown clutter or parsing exceptions.
+*   **Gemini 2.5 Flash Lite Synthesis Engine:** Direct client-to-API integration leveraging a strict `responseSchema` to guarantee absolute data typing without markdown clutter or parsing exceptions.
 *   **Real-Time State Synchronization:** Completely serverless data propagation using Firebase Firestore WebSockets, bypassing traditional API server overhead and latency.
 *   **Encapsulated Tactical UI:** A clean, dark-mode dashboard built in React and Tailwind CSS v4 that maps events chronologically and color-codes live physical nodes based on parsed crisis severity.
 
@@ -20,7 +20,7 @@ By eliminating the human cognitive bottleneck of parsing chaotic, multi-lingual,
 
 *   **Frontend Framework:** React (Vite)
 *   **Styling Engine:** Tailwind CSS v4 (using `@tailwindcss/vite` native compilation)
-*   **GenAI Framework:** Google Gemini 1.5 Flash API (via Google AI Studio)
+*   **GenAI Framework:** Google Gemini 2.5 Flash Lite API (via Google AI Studio)
 *   **Database & Live Bus:** Firebase Firestore
 *   **Linter:** ESLint (Pre-configured for React Hooks safety)
 
@@ -29,21 +29,30 @@ By eliminating the human cognitive bottleneck of parsing chaotic, multi-lingual,
 ```text
 nodezero/
 ├── .gitignore
-├── design.md              # Architectural Specifications
-├── gemini.md              # AI Integration Contracts
+├── README.md
+├── documentation.pdf
 └── frontend/              # Isolated Frontend Workspace
-    ├── .env.local         # Local API Key Storage
+    ├── .env               # API Key Storage
+    ├── eslint.config.js
     ├── package.json
     ├── vite.config.js
     ├── index.html
     └── src/
-        ├── main.jsx
+        ├── App.css
         ├── App.jsx
+        ├── index.css
+        ├── main.jsx
         ├── firebaseConfig.js
-        ├── utils/
-        │   └── api.js      # Decoupled Gemini Execution Layer
+        ├── assets/
         ├── hooks/
         │   └── useIncidents.js
         └── components/
             ├── ChaosGenerator.jsx
-            └── IncidentFeed.jsx
+            ├── ChatBot.jsx
+            ├── FanDashboard.jsx
+            ├── IncidentFeed.jsx
+            ├── Login.jsx
+            ├── Maps.jsx
+            ├── PublicAlertFeed.jsx
+            ├── StadiumMatrix.jsx
+            └── StaffDashboard.jsx
