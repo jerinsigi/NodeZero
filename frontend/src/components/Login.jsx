@@ -50,7 +50,7 @@ export default function Login() {
             <span style={{...styles.dot, background: '#3b82f6', boxShadow: '0 0 12px #3b82f6'}} />
             <h2 style={{...styles.cardTitle, color: '#93c5fd'}}>FAN PORTAL</h2>
           </div>
-          <p style={styles.description}>Access live stadium navigation, event updates, and the NodeZero Fan Assistant.</p>
+          <p style={styles.description}>Access live stadium navigation, event updates, and the NodeZero Fan Assistant. <br/> Use a for demo </p>
           <form onSubmit={handleFanLogin} style={styles.form}>
             <input 
               type="text" 
@@ -72,7 +72,7 @@ export default function Login() {
             <span style={{...styles.dot, background: '#ef4444', boxShadow: '0 0 12px #ef4444'}} />
             <h2 style={{...styles.cardTitle, color: '#fca5a5'}}>COMMAND CENTER</h2>
           </div>
-          <p style={styles.description}>Secure access to live incident feeds, chaos simulation, and tactical visual twin.</p>
+          <p style={styles.description}>Secure access to live incident feeds, chaos simulation, and tactical visual twin. <br/> Use b for demo </p>
           <form onSubmit={handleStaffLogin} style={styles.form}>
             <input 
               type="password" 
