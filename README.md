@@ -56,3 +56,31 @@ nodezero/
             ├── PublicAlertFeed.jsx
             ├── StadiumMatrix.jsx
             └── StaffDashboard.jsx
+```
+
+---
+
+## 🎯 Chosen Vertical
+
+**Sports, Entertainment & Live Events Management:** Specifically tailored for high-stakes, high-velocity stadium operations, crowd control, and crisis management during global events like the FIFA World Cup 2026.
+
+## 🧠 Approach and Logic
+
+Our core logic centers around eliminating the human cognitive bottleneck in crisis scenarios. In a stadium emergency, raw data (radio chatter, panicky texts) is chaotic and unstructured. 
+
+Instead of relying on human operators to manually parse and enter this data into a system, NodeZero uses an LLM (Gemini 2.5 Flash Lite) as a real-time synthesis engine. We strictly enforce a JSON response schema from the LLM, effectively treating the AI not as a conversational agent, but as a robust, error-tolerant data parser. By combining this with a serverless architecture (direct client-to-API and client-to-database), we eliminate middle-tier server latency, ensuring tactical updates are reflected instantly on the dashboard.
+
+## ⚙️ How the Solution Works
+
+1. **Data Injection:** Staff members (or the built-in Chaos Simulator) input frantic, unstructured textual anomaly reports into the system.
+2. **AI Synthesis:** The frontend directly queries the Gemini 2.5 Flash Lite API, instructing it to parse the unstructured text into a strict, predefined JSON schema.
+3. **Structuring State:** Gemini extracts the core facts (incident type, location, severity, required response) and returns a clean JSON object.
+4. **Real-Time Propagation:** The client pushes this structured state directly to a Firebase Firestore database.
+5. **Tactical UI Update:** Using Firestore WebSockets, all connected dashboards instantly sync the new state, updating chronological feeds and color-coding live physical stadium nodes based on crisis severity.
+
+## 💡 Assumptions Made
+
+*   **Client Capabilities:** It is assumed that client devices (tablets/workstations used by stadium staff) have stable internet connections to interact directly with the Gemini API and Firebase WebSockets.
+*   **Security & Auth Abstracted:** For the scope of this MVP, direct client-side API keys and database access are used to demonstrate raw speed and serverless capabilities. In a production environment, this would be wrapped in robust authentication (like Firebase App Check) and secure serverless edge functions.
+*   **LLM Latency:** We assume the Gemini Flash Lite tier consistently provides sub-second inference times, which is critical for real-time tactical mapping.
+*   **Schema Adherence:** We rely on the LLM's ability to strictly adhere to the provided JSON schema without hallucinating extra markdown or conversational text, which would otherwise break the frontend parser.
